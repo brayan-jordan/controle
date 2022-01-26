@@ -22,6 +22,7 @@ public class DiaDeAula {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "turma_id")
+    
     private Turma turma;
 
     @ManyToOne(cascade = CascadeType.ALL)
