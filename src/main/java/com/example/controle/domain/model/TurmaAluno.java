@@ -6,21 +6,25 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "materias_turmas")
-public class MateriaTurma {
+@Entity
+@Table(name = "turmas_alunos")
+public class TurmaAluno {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long turmaId;
+    private Long aluno_id;
 
-    private Long materiaId;
+    private Long turma_id;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "infoAluno")
+    private List<DiaDeAula> diasDeAula;
 
 }

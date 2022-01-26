@@ -10,22 +10,22 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(name = "dias_de_aula")
 public class DiaDeAula {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate diaDaAula;
-
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "turma_id")
-    
-    private Turma turma;
+    @JoinColumn(name = "turma_aluno_id")
+    private TurmaAluno infoAluno;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "aluno_id")
-    private Aluno aluno;
+    private LocalDate dataAula;
+
+    private StatusPresenca statusPresenca;
+
 }

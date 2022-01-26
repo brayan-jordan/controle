@@ -23,18 +23,9 @@ public class Turma {
     private String nome;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "materias_turmas", joinColumns =
-    @JoinColumn(name = "turma_id", referencedColumnName = "id"), inverseJoinColumns =
-    @JoinColumn(name = "materia_id", referencedColumnName = "id"))
-    private List<Materia> materias;
-
-    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "turmas_alunos", joinColumns =
     @JoinColumn(name = "turma_id", referencedColumnName = "id"), inverseJoinColumns =
     @JoinColumn(name = "aluno_id", referencedColumnName = "id"))
     private List<Aluno> alunos;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "turma")
-    private List<DiaDeAula> diasDeAula;
 
 }
