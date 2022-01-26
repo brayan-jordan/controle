@@ -2,17 +2,30 @@ package com.example.controle.domain.service;
 
 import com.example.controle.api.exception.NegocioException;
 import com.example.controle.domain.model.Aluno;
+import com.example.controle.domain.model.Turma;
 import com.example.controle.domain.repository.AlunoRepository;
+import com.example.controle.domain.repository.TurmaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class AlunoService {
 
     private AlunoRepository alunoRepository;
+    private TurmaRepository turmaRepository;
 
-    private Aluno cadastrarAluno(Aluno aluno) {
+    public String excluirAluno(Long alunoId) {
+        alunoRepository.delete(alunoRepository.findById(alunoId).orElseThrow(
+                () -> new NegocioException("Aluno nao encontrado"))
+        );
+
+        return "Aluno excluido com sucesso";
+    }
+
+    public Aluno cadastrarAluno(Aluno aluno) {
         if (alunoRepository.existsByName(aluno.getNome()).isPresent()) {
             throw new NegocioException("Ja existe um aluno cadastrado com esse nome");
         }
@@ -20,12 +33,25 @@ public class AlunoService {
         return alunoRepository.save(aluno);
     }
 
-    private String excluirAluno(Long alunoId) {
-        alunoRepository.delete(alunoRepository.findById(alunoId).orElseThrow(
-                () -> new NegocioException("Aluno nao encontrado"))
-        );
+    public List<Aluno> listarAlunos() {
+        return alunoRepository.findAll();
+    }
 
-        return "Aluno excluido com sucesso";
+    public Aluno adicionarAlunoTurma(Long alunoId, Long turmaId) {
+        Aluno aluno = alunoRepository.findById(alunoId).orElseThrow(() -> new NegocioException(
+                "Aluno nao encontrado"
+        ));
+
+        Turma turma = turmaRepository.findById(turmaId).orElseThrow(() -> new NegocioException(
+            "Turma nao encontrada"
+        ));
+
+        if (aluno.getTurmas().stream().anyMatch(turmaFilter -> turmaFilter == turma)) {
+            throw new NegocioException("Esse aluno ja esta nessa turma");
+        }
+
+        aluno.getTurmas().add(turma);
+        return alunoRepository.save(aluno);
     }
 
 }
