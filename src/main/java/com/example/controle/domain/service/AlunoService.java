@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -52,6 +53,16 @@ public class AlunoService {
 
         aluno.getTurmas().add(turma);
         return alunoRepository.save(aluno);
+    }
+
+    public List<Turma> turmasParaAdicionar(Long alunoId) {
+        List<Turma> turmas = turmaRepository.findAll();
+        Aluno aluno  = alunoRepository.findById(alunoId).orElseThrow(() -> new NegocioException(
+                "Aluno não encontrado"
+        ));
+
+        return turmas.stream().filter(turma -> !turma.getAlunos().contains(aluno)).collect(Collectors.toList());
+
     }
 
 }

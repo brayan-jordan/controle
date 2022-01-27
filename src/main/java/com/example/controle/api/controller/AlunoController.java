@@ -2,6 +2,7 @@ package com.example.controle.api.controller;
 
 import com.example.controle.api.dtos.AdicionarAlunoTurmaDTO;
 import com.example.controle.domain.model.Aluno;
+import com.example.controle.domain.model.Turma;
 import com.example.controle.domain.service.AlunoService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,11 @@ public class AlunoController {
     @PutMapping("/adicionarnaturma")
     public Aluno adicionarAluno(@RequestBody AdicionarAlunoTurmaDTO infoAlunoAdicionar) {
         return alunoService.adicionarAlunoTurma(infoAlunoAdicionar.getAluno_id(), infoAlunoAdicionar.getTurma_id());
+    }
+
+    @GetMapping("/turmasparaadicionar/{alunoId}")
+    public List<Turma> turmasParaAdicionar(@PathVariable Long alunoId) {
+        return alunoService.turmasParaAdicionar(alunoId);
     }
 
 }
