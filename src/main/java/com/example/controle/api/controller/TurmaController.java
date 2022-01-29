@@ -1,6 +1,7 @@
 package com.example.controle.api.controller;
 
 import com.example.controle.api.dtos.AdicionarAlunoTurmaDTO;
+import com.example.controle.api.dtos.ChamadaAlunoDTO;
 import com.example.controle.domain.model.Turma;
 import com.example.controle.domain.service.TurmaService;
 import lombok.AllArgsConstructor;
@@ -35,5 +36,9 @@ public class TurmaController {
         return turmaService.adicionarAlunoTurma(infoAluno.getTurma_id(), infoAluno.getAluno_id());
     }
 
+    @PutMapping("/fazerchamada/{turmaId}")
+    private String realizarChamada(@RequestBody List<ChamadaAlunoDTO> infoAlunos, @PathVariable Long turmaId) {
+        return turmaService.fazerChamadaTurma(turmaId, infoAlunos);
+    }
 
 }
