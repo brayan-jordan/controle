@@ -1,6 +1,7 @@
 package com.example.controle.api.controller;
 
 import com.example.controle.api.dtos.AdicionarAlunoTurmaDTO;
+import com.example.controle.api.dtos.AlunoInfo;
 import com.example.controle.api.dtos.ChamadaAlunoDTO;
 import com.example.controle.domain.model.Turma;
 import com.example.controle.domain.service.TurmaService;
@@ -39,6 +40,11 @@ public class TurmaController {
     @PutMapping("/fazerchamada/{turmaId}")
     private String realizarChamada(@RequestBody List<ChamadaAlunoDTO> infoAlunos, @PathVariable Long turmaId) {
         return turmaService.fazerChamadaTurma(turmaId, infoAlunos);
+    }
+
+    @GetMapping("/buscarinfoturma/{turmaId}")
+    private List<AlunoInfo> buscarDetalhesTurma(@PathVariable Long turmaId) {
+        return buscarDetalhesTurma(turmaId);
     }
 
 }

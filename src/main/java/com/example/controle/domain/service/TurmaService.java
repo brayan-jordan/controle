@@ -1,5 +1,6 @@
 package com.example.controle.domain.service;
 
+import com.example.controle.api.dtos.AlunoInfo;
 import com.example.controle.api.dtos.ChamadaAlunoDTO;
 import com.example.controle.api.exception.NegocioException;
 import com.example.controle.domain.model.*;
@@ -11,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -77,6 +79,35 @@ public class TurmaService {
         });
 
         return "Chamada realizada";
+    }
+
+    private List<AlunoInfo> buscarInfoTurma(Long turmaId) {
+        List<AlunoInfo> alunoInfos = new ArrayList<>();
+        Turma turma = turmaRepository.findById(turmaId).orElseThrow(() -> new NegocioException(
+                "Turma nao encontrada"
+        ));
+
+        List<TurmaAluno> turmaAlunos = new ArrayList<>();
+
+        turma.getAlunos().forEach(aluno -> {
+            turmaAlunos.add(turmaAlunoRepository.findByTurmaAndAluno(turma.getId(), aluno.getId()));
+        });
+
+        turmaAlunos.forEach(turmaAluno -> {
+            Aluno aluno = alunoRepository.findById(turmaAluno.getAluno_id()).orElseThrow(() -> new NegocioException(
+                    "exception"
+            ));
+
+            alunoInfos.add(new AlunoInfo(aluno.getNome(), aluno.getIdade(), calcularFrequencia(turmaAluno), turmaAluno.getDiasDeAula().size()));
+        });
+
+        return alunoInfos;
+    }
+
+    private double calcularFrequencia(TurmaAluno turmaAluno) {
+        int quantidadePresentes = (int) turmaAluno.getDiasDeAula().stream().filter(diaDeAula -> diaDeAula.getStatusPresenca().equals(StatusPresenca.PRE)).count();
+        return turmaAluno.getDiasDeAula().size() / quantidadePresentes;
+
     }
 
     private StatusPresenca converterStatusPresenca(boolean isPresent) {
