@@ -34,4 +34,6 @@ public class TurmaController {
     public Turma adicionarAlunoTurma(@RequestBody AdicionarAlunoTurmaDTO infoAluno) {
         return turmaService.adicionarAlunoTurma(infoAluno.getTurma_id(), infoAluno.getAluno_id());
     }
+
+
 }
