@@ -81,7 +81,7 @@ public class TurmaService {
         return "Chamada realizada";
     }
 
-    private List<AlunoInfo> buscarInfoTurma(Long turmaId) {
+    public List<AlunoInfo> buscarInfoTurma(Long turmaId) {
         List<AlunoInfo> alunoInfos = new ArrayList<>();
         Turma turma = turmaRepository.findById(turmaId).orElseThrow(() -> new NegocioException(
                 "Turma nao encontrada"
@@ -104,10 +104,16 @@ public class TurmaService {
         return alunoInfos;
     }
 
-    private double calcularFrequencia(TurmaAluno turmaAluno) {
-        int quantidadePresentes = (int) turmaAluno.getDiasDeAula().stream().filter(diaDeAula -> diaDeAula.getStatusPresenca().equals(StatusPresenca.PRE)).count();
-        return turmaAluno.getDiasDeAula().size() / quantidadePresentes;
+    private int calcularFrequencia(TurmaAluno turmaAluno) {
+        int quantidadePresentes2 = 0;
+        for (int i =0; i < turmaAluno.getDiasDeAula().size(); ++i) {
+            if (turmaAluno.getDiasDeAula().get(i).getStatusPresenca().equals(StatusPresenca.PRE)) {
+                quantidadePresentes2 = quantidadePresentes2 + 1;
+            }
+        }
 
+        int fator = quantidadePresentes2 * 100;
+        return fator / turmaAluno.getDiasDeAula().size();
     }
 
     private StatusPresenca converterStatusPresenca(boolean isPresent) {

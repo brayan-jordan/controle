@@ -38,13 +38,13 @@ public class TurmaController {
     }
 
     @PutMapping("/fazerchamada/{turmaId}")
-    private String realizarChamada(@RequestBody List<ChamadaAlunoDTO> infoAlunos, @PathVariable Long turmaId) {
+    public String realizarChamada(@RequestBody List<ChamadaAlunoDTO> infoAlunos, @PathVariable Long turmaId) {
         return turmaService.fazerChamadaTurma(turmaId, infoAlunos);
     }
 
     @GetMapping("/buscarinfoturma/{turmaId}")
-    private List<AlunoInfo> buscarDetalhesTurma(@PathVariable Long turmaId) {
-        return buscarDetalhesTurma(turmaId);
+    public List<AlunoInfo> buscarDetalhesTurma(@PathVariable Long turmaId) {
+        return turmaService.buscarInfoTurma(turmaId);
     }
 
 }
