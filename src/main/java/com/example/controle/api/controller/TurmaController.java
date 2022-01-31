@@ -3,6 +3,7 @@ package com.example.controle.api.controller;
 import com.example.controle.api.dtos.AdicionarAlunoTurmaDTO;
 import com.example.controle.api.dtos.AlunoInfo;
 import com.example.controle.api.dtos.ChamadaAlunoDTO;
+import com.example.controle.domain.model.Aluno;
 import com.example.controle.domain.model.Turma;
 import com.example.controle.domain.service.TurmaService;
 import lombok.AllArgsConstructor;
@@ -45,6 +46,11 @@ public class TurmaController {
     @GetMapping("/buscarinfoturma/{turmaId}")
     public List<AlunoInfo> buscarDetalhesTurma(@PathVariable Long turmaId) {
         return turmaService.buscarInfoTurma(turmaId);
+    }
+
+    @GetMapping("/alunosparaadicionar/{turmaId}")
+    public List<Aluno> alunosParaAdicionar(@PathVariable Long turmaId) {
+        return turmaService.alunosParaAdicinar(turmaId);
     }
 
 }

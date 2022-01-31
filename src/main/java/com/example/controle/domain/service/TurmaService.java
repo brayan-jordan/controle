@@ -62,7 +62,7 @@ public class TurmaService {
         return turmaRepository.save(turma);
     }
 
-    private List<Aluno> alunosParaAdicinar(Long turmaId) {
+    public List<Aluno> alunosParaAdicinar(Long turmaId) {
         List<Aluno> todosAlunos = alunoRepository.findAll();
         Turma turma = turmaRepository.findById(turmaId).orElseThrow(() -> new NegocioException(
                 "Turma  nao encontrada"
