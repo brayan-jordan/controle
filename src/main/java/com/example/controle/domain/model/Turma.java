@@ -22,7 +22,7 @@ public class Turma {
 
     private String nome;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany()
     @JoinTable(name = "turmas_alunos", joinColumns =
     @JoinColumn(name = "turma_id", referencedColumnName = "id"), inverseJoinColumns =
     @JoinColumn(name = "aluno_id", referencedColumnName = "id"))

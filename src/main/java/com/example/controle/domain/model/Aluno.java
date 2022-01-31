@@ -29,7 +29,7 @@ public class Aluno {
     private int idade;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "alunos", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "alunos")
     private List<Turma> turmas;
 
 }
