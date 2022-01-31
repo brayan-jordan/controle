@@ -112,6 +112,10 @@ public class TurmaService {
             }
         }
 
+        if (turmaAluno.getDiasDeAula().size() == 0) {
+            return 100;
+        }
+
         int fator = quantidadePresentes2 * 100;
         return fator / turmaAluno.getDiasDeAula().size();
     }

@@ -51,7 +51,8 @@ public class AlunoService {
             throw new NegocioException("Esse aluno ja esta nessa turma");
         }
 
-        aluno.getTurmas().add(turma);
+        turma.getAlunos().add(aluno);
+        turmaRepository.save(turma);
         return alunoRepository.save(aluno);
     }
 
