@@ -18,6 +18,24 @@ public class AlunoService {
     private AlunoRepository alunoRepository;
     private TurmaRepository turmaRepository;
 
+    public Aluno editarAluno(Long alunoId, Aluno alunoEditar) {
+        Aluno aluno = alunoRepository.findById(alunoId).orElseThrow(() -> new NegocioException(
+                "Aluno nao encontrado"
+        ));
+
+        aluno.setNome(alunoEditar.getNome());
+        aluno.setIdade(alunoEditar.getIdade());
+
+        return alunoRepository.save(aluno);
+
+    }
+
+    public Aluno findById(Long alunoId) {
+        return alunoRepository.findById(alunoId).orElseThrow(() -> new NegocioException(
+                "Aluno nao encontrado"
+        ));
+    }
+
     public String excluirAluno(Long alunoId) {
         alunoRepository.delete(alunoRepository.findById(alunoId).orElseThrow(
                 () -> new NegocioException("Aluno nao encontrado"))

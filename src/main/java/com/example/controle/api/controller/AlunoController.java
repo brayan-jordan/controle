@@ -41,4 +41,14 @@ public class AlunoController {
         return alunoService.turmasParaAdicionar(alunoId);
     }
 
+    @PutMapping("/editar/{alunoId}")
+    public Aluno editarAluno(@RequestBody Aluno aluno, @PathVariable Long alunoId) {
+        return alunoService.editarAluno(alunoId, aluno);
+    }
+
+    @GetMapping("/findbyid/{alunoId}")
+    public Aluno buscarAluno(@PathVariable Long alunoId) {
+        return alunoService.findById(alunoId);
+    }
+
 }
