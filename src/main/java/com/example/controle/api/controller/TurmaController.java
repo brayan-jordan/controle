@@ -53,4 +53,9 @@ public class TurmaController {
         return turmaService.alunosParaAdicinar(turmaId);
     }
 
+    @GetMapping("/alunosdaturma/{turmaId}")
+    public List<Aluno> alunosDaTurma(@PathVariable Long turmaId) {
+        return turmaService.alunosDaTurma(turmaId);
+    }
+
 }

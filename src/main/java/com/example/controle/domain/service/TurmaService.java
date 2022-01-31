@@ -71,19 +71,35 @@ public class TurmaService {
         return todosAlunos.stream().filter(aluno -> !aluno.getTurmas().contains(turma)).collect(Collectors.toList());
     }
 
-    public String fazerChamadaTurma(Long turmaId, List<ChamadaAlunoDTO> infoAlunos) {
+    public List<Aluno> alunosDaTurma(Long turmaId) {
         Turma turma = turmaRepository.findById(turmaId).orElseThrow(() -> new NegocioException(
-                "turma nao encontrada"
+                "Turma  nao encontrada"
         ));
 
+        return turma.getAlunos();
+    }
 
-        turma.getAlunos().forEach(turmaForEach -> {
-            TurmaAluno turmaAluno = turmaAlunoRepository.findByTurmaAndAluno(turmaId, turmaForEach.getId());
-            DiaDeAula diaDeAula = new DiaDeAula(null, turmaAluno, LocalDate.now(), converterStatusPresenca(infoAlunos.stream().anyMatch(chamadaAlunoDTO -> chamadaAlunoDTO.getAlunoId().equals(turmaForEach.getId()))));
+    public String fazerChamadaTurma(Long turmaId, List<ChamadaAlunoDTO> infoAlunos) {
+        List<TurmaAluno> todosAlunosDaTurma = turmaAlunoRepository.findByTurma(turmaId);
+
+        todosAlunosDaTurma.forEach(umAlunoDaTurma -> {
+            DiaDeAula diaDeAula = new DiaDeAula();
+            diaDeAula.setDataAula(LocalDate.now());
+            diaDeAula.setInfoAluno(umAlunoDaTurma);
+            diaDeAula.setStatusPresenca(converterStatusPresenca(verificaSeAlunoEstaNaLista(infoAlunos, umAlunoDaTurma.getAluno_id())));
             diaDeAulaRepository.save(diaDeAula);
         });
-
         return "Chamada realizada";
+    }
+
+    public boolean verificaSeAlunoEstaNaLista(List<ChamadaAlunoDTO> infoAlunos, Long alunoId) {
+        for (ChamadaAlunoDTO infoAluno : infoAlunos) {
+            if (infoAluno.getId().equals(alunoId)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public List<AlunoInfo> buscarInfoTurma(Long turmaId) {

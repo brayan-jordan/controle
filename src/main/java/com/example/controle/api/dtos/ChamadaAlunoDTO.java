@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class ChamadaAlunoDTO {
 
-    private Long alunoId;
+    private Long id;
 
 }
