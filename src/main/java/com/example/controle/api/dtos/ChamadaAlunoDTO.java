@@ -9,6 +9,4 @@ public class ChamadaAlunoDTO {
 
     private Long alunoId;
 
-    private boolean isPresent;
-
 }

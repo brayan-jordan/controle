@@ -72,9 +72,14 @@ public class TurmaService {
     }
 
     public String fazerChamadaTurma(Long turmaId, List<ChamadaAlunoDTO> infoAlunos) {
-        infoAlunos.forEach(infoAluno -> {
-            TurmaAluno turmaAluno = turmaAlunoRepository.findByTurmaAndAluno(turmaId, infoAluno.getAlunoId());
-            DiaDeAula diaDeAula = new DiaDeAula(null, turmaAluno, LocalDate.now(), converterStatusPresenca(infoAluno.isPresent()));
+        Turma turma = turmaRepository.findById(turmaId).orElseThrow(() -> new NegocioException(
+                "turma nao encontrada"
+        ));
+
+
+        turma.getAlunos().forEach(turmaForEach -> {
+            TurmaAluno turmaAluno = turmaAlunoRepository.findByTurmaAndAluno(turmaId, turmaForEach.getId());
+            DiaDeAula diaDeAula = new DiaDeAula(null, turmaAluno, LocalDate.now(), converterStatusPresenca(infoAlunos.stream().anyMatch(chamadaAlunoDTO -> chamadaAlunoDTO.getAlunoId().equals(turmaForEach.getId()))));
             diaDeAulaRepository.save(diaDeAula);
         });
 
